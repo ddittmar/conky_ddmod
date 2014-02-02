@@ -224,7 +224,7 @@ gauge = {
     graduation_thickness=0,        graduation_mark_thickness=2,
     graduation_unit_angle=27,
     graduation_fg_colour=0xFFFFFF, graduation_fg_alpha=0.3,
-    caption='Disk',
+    caption='sda',
     caption_weight=1,              caption_size=12.0,
     caption_fg_colour=0xFFFFFF,    caption_fg_alpha=0.5,
 },
@@ -245,7 +245,7 @@ gauge = {
     graduation_thickness=0,        graduation_mark_thickness=2,
     graduation_unit_angle=27,
     graduation_fg_colour=0xFFFFFF, graduation_fg_alpha=0.3,
-    caption='Swap',
+    caption='swap',
     caption_weight=1,              caption_size=12.0,
     caption_fg_colour=0xFFFFFF,    caption_fg_alpha=0.5,
 }

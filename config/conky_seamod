@@ -111,14 +111,15 @@ ${offset 15}${font Ubuntu:size=9,weight:bold}${color1}Swap${alignr}${color2}${fo
 
 # eth0
 ${font Ubuntu:size=10,weight:bold}${color4}ETHERNET ${hr 2}
-${offset 15}${upspeedgraph eth0 30,285 666666 666666 100 -l}
-${offset 15}${color1}${font Ubuntu:size=9,weight:bold}Up${alignr}${font Ubuntu:size=9,weight:normal}$color2${upspeed eth0} / ${totalup eth0}
-${offset 15}${downspeedgraph eth0 30,285 666666 666666 100 -l}
-${offset 15}${color1}${font Ubuntu:size=9,weight:bold}Down${alignr}${font Ubuntu:size=9,weight:normal}$color2${downspeed eth0} / ${totaldown eth0}
+${offset 15}${upspeedgraph eth0 30,135 666666 666666 100 -l}${offset 15}${downspeedgraph eth0 30,135 666666 666666 100 -l}
+${goto 17}${color1}${font Ubuntu:size=9,weight:bold}Up:$tab${font Ubuntu:size=9,weight:normal}$color2${upspeed eth0} / ${totalup eth0}${goto 167}${color1}${font Ubuntu:size=9,weight:bold}Down:$tab${font Ubuntu:size=9,weight:normal}$color2${downspeed eth0} / ${totaldown eth0}
 
 # wlan0
-${font Ubuntu:size=10,weight:bold}${color4}WIRELESS ${hr 2} 
-${offset 15}${upspeedgraph wlan0 30,285 666666 666666 100 -l}
-${offset 15}${color1}${font Ubuntu:size=9,weight:bold}Up${alignr}${font Ubuntu:size=9,weight:normal}$color2${upspeed wlan0} / ${totalup wlan0}
-${offset 15}${downspeedgraph wlan0 30,285 666666 666666 100 -l}
-${offset 15}${color1}${font Ubuntu:size=9,weight:bold}Down${alignr}${font Ubuntu:size=9,weight:normal}$color2${downspeed wlan0} / ${totaldown wlan0}
+${font Ubuntu:size=10,weight:bold}${color4}WLAN ${hr 2}
+${offset 15}${upspeedgraph wlan0 30,135 666666 666666 100 -l}${offset 15}${downspeedgraph wlan0 30,135 666666 666666 100 -l}
+${goto 17}${color1}${font Ubuntu:size=9,weight:bold}Up:$tab${font Ubuntu:size=9,weight:normal}$color2${upspeed wlan0} / ${totalup wlan0}${goto 167}${color1}${font Ubuntu:size=9,weight:bold}Down:$tab${font Ubuntu:size=9,weight:normal}$color2${downspeed wlan0} / ${totaldown wlan0}
+
+# loopback
+${font Ubuntu:size=10,weight:bold}${color4}LOOPBACK ${hr 2}
+${offset 15}${upspeedgraph lo 30,135 666666 666666 100 -l}${offset 15}${downspeedgraph lo 30,135 666666 666666 100 -l}
+${goto 17}${color1}${font Ubuntu:size=9,weight:bold}Up:$tab${font Ubuntu:size=9,weight:normal}$color2${upspeed lo} / ${totalup lo}${goto 167}${color1}${font Ubuntu:size=9,weight:bold}Down:$tab${font Ubuntu:size=9,weight:normal}$color2${downspeed lo} / ${totaldown lo}
