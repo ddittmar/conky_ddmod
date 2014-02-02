@@ -82,20 +82,21 @@ ${offset 15}${font Ubuntu:size=10,weight:normal}${color1}Uptime:$color2$tab$upti
 # CPU Data
 ${goto 167}${font Ubuntu:size=10,weight:normal}${color1}Temp:${alignr}${color2}${font Ubuntu:size=10,weight:normal}${acpitemp}°C
 ${goto 167}${font Ubuntu:size=10,weight:normal}${color1}Freq:${alignr}${color2}${font Ubuntu:size=10,weight:normal}${freq}M
-${goto 167}${font Ubuntu:size=10,weight:normal}${color1}Usage:${alignr}${color2}${font Ubuntu:size=10,weight:normal}${cpu}%${voffset -10}
+${goto 167}${font Ubuntu:size=10,weight:normal}${color1}Avg:${alignr}${color2}${font Ubuntu:size=10,weight:normal}${cpu}%${voffset -10}
 # Showing CPU Graph
-${offset 120}${cpugraph 40,183 666666 666666}${voffset -25}
+${offset 121}${cpugraph 40,183 666666 666666}${voffset -25}
 ${offset 90}${font Ubuntu:size=10,weight:bold}${color5}CPU
 # Showing TOP 5 CPU-consumers
 ${offset 105}${font Ubuntu:size=10,weight:normal}${color4}${top name 1}${alignr}${top cpu 1}%
 ${offset 105}${font Ubuntu:size=10,weight:normal}${color1}${top name 2}${alignr}${top cpu 2}%
 ${offset 105}${font Ubuntu:size=10,weight:normal}${color2}${top name 3}${alignr}${top cpu 3}%
 ${offset 105}${font Ubuntu:size=10,weight:normal}${color3}${top name 4}${alignr}${top cpu 4}%
-${offset 105}${font Ubuntu:size=10,weight:normal}${color3}${top name 5}${alignr}${top cpu 5}%
+#${offset 105}${font Ubuntu:size=10,weight:normal}${color3}${top name 5}${alignr}${top cpu 5}%
+
 
 # Mem Data
 ${goto 167}${font Ubuntu:size=10,weight:normal}${color1}Free:${alignr}${color2}${font Ubuntu:size=10,weight:normal}${memfree}
-${goto 167}${font Ubuntu:size=10,weight:normal}${color1}Usage:${alignr}${color2}${font Ubuntu:size=10,weight:normal}${mem}
+${goto 167}${font Ubuntu:size=10,weight:normal}${color1}Used:${alignr}${color2}${font Ubuntu:size=10,weight:normal}${mem}
 ${voffset 10}
 # Showing Mem
 ${offset 90}${font Ubuntu:size=10,weight:bold}${color5}MEM
@@ -104,7 +105,8 @@ ${offset 105}${font Ubuntu:size=10,weight:normal}${color4}${top_mem name 1}${ali
 ${offset 105}${font Ubuntu:size=10,weight:normal}${color1}${top_mem name 2}${alignr}${top_mem mem 2}%
 ${offset 105}${font Ubuntu:size=10,weight:normal}${color2}${top_mem name 3}${alignr}${top_mem mem 3}%
 ${offset 105}${font Ubuntu:size=10,weight:normal}${color3}${top_mem name 4}${alignr}${top_mem mem 4}%
-${offset 105}${font Ubuntu:size=10,weight:normal}${color3}${top_mem name 4}${alignr}${top_mem mem 5}%
+#${offset 105}${font Ubuntu:size=10,weight:normal}${color3}${top_mem name 4}${alignr}${top_mem mem 5}%
+
 
 # Showing disk partitions
 ${goto 167}${font Ubuntu:size=10,weight:normal}${color1}root:${alignr}${color2}${font Ubuntu:size=10,weight:normal}${fs_used /}
