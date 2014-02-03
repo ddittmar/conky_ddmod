@@ -123,16 +123,16 @@ ${goto 17}${color1}${font Ubuntu:size=9,weight:bold}Address: $tab${font Ubuntu:s
 ${offset 15}${upspeedgraph eth0 30,135 666666 666666 100 -l}${offset 15}${downspeedgraph eth0 30,135 666666 666666 100 -l}
 ${goto 17}${color1}${font Ubuntu:size=9,weight:bold}Up: $tab${font Ubuntu:size=9,weight:normal}$color2${upspeed eth0} / ${totalup eth0}${goto 167}${color1}${font Ubuntu:size=9,weight:bold}Down: $tab${font Ubuntu:size=9,weight:normal}$color2${downspeed eth0} / ${totaldown eth0}
 
-${endif}
+${endif}\
 ${if_up wlan0}\
 # wlan0
 ${font Ubuntu:size=10,weight:bold}${color4}WLAN ${hr 2}${voffset 5}
 ${goto 17}${color1}${font Ubuntu:size=9,weight:bold}Address: $tab${font Ubuntu:size=9,weight:normal}$color2${addr wlan0}${goto 167}${color1}${font Ubuntu:size=9,weight:bold}ESSID: $tab${font Ubuntu:size=9,weight:normal}$color2${wireless_essid wlan0}
-${goto 17}${color1}${font Ubuntu:size=9,weight:bold}Bitrate: $tab${font Ubuntu:size=9,weight:normal}$color2${wireless_bitrate wlan0}${goto 167}${color1}${font Ubuntu:size=9,weight:bold}Link: $tab$tab${font Ubuntu:size=9,weight:normal}$color2${voffset 1}${wireless_link_bar 10,90 wlan0}
+${goto 17}${color1}${font Ubuntu:size=9,weight:bold}Bitrate: $tab${font Ubuntu:size=9,weight:normal}$color2${wireless_bitrate wlan0}${goto 167}${color1}${font Ubuntu:size=9,weight:bold}Link: $tab$tab${font Ubuntu:size=9,weight:normal}$color2${voffset 1$}${wireless_link_bar 10,90 wlan0}
 ${offset 15}${upspeedgraph wlan0 30,135 666666 666666 100 -l}${offset 15}${downspeedgraph wlan0 30,135 666666 666666 100 -l}
 ${goto 17}${color1}${font Ubuntu:size=9,weight:bold}Up: $tab${font Ubuntu:size=9,weight:normal}$color2${upspeed wlan0} / ${totalup wlan0}${goto 167}${color1}${font Ubuntu:size=9,weight:bold}Down: $tab${font Ubuntu:size=9,weight:normal}$color2${downspeed wlan0} / ${totaldown wlan0}
 
-${endif}
+${endif}\
 # loopback
 ${font Ubuntu:size=10,weight:bold}${color4}LOOPBACK ${hr 2}${voffset 5}
 ${offset 15}${upspeedgraph lo 30,135 666666 666666 100 -l}${offset 15}${downspeedgraph lo 30,135 666666 666666 100 -l}
