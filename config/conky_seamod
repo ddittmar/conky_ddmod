@@ -28,7 +28,7 @@ no_buffers yes
 text_buffer_size 2048
 
 gap_x 30
-gap_y 70
+gap_y 50
 minimum_size 300 900
 maximum_width 350
 own_window yes
@@ -74,7 +74,7 @@ lua_draw_hook_post main
 ## System information using conky capabilities
 TEXT
 # Header with base system info
-${font Ubuntu:size=10,weight:bold}${color4}SYSTEM ${hr 2}
+${font Ubuntu:size=10,weight:bold}${color4}SYSTEM ${hr 2} foobar
 ${offset 15}${font Ubuntu:size=10,weight:normal}${color1}$sysname $kernel $machine
 ${offset 15}${font Ubuntu:size=10,weight:normal}${color1}$nodename
 ${offset 15}${font Ubuntu:size=10,weight:normal}${color1}Uptime:$color2$tab$uptime${goto 167}${font Ubuntu:size=10,weight:normal}${color1}Load:$color2${alignr}$loadavg
@@ -132,3 +132,8 @@ ${font Ubuntu:size=10,weight:bold}${color4}LOOPBACK ${hr 2}${voffset 5}
 ${goto 17}${color1}${font Ubuntu:size=9,weight:bold}Address:$tab${font Ubuntu:size=9,weight:normal}$color2${addr lo}
 ${offset 15}${upspeedgraph lo 30,135 666666 666666 100 -l}${offset 15}${downspeedgraph lo 30,135 666666 666666 100 -l}
 ${goto 17}${color1}${font Ubuntu:size=9,weight:bold}Up:$tab${font Ubuntu:size=9,weight:normal}$color2${upspeed lo} / ${totalup lo}${goto 167}${color1}${font Ubuntu:size=9,weight:bold}Down:$tab${font Ubuntu:size=9,weight:normal}$color2${downspeed lo} / ${totaldown lo}
+
+# Zeigt den Zustand von CAPS- und NUM-Lock an:
+${font Ubuntu:size=10,weight:bold}${color4}KEYBOARD ${hr 2}${voffset 5}
+${offset 15}${font Ubuntu:size=9,weight:bold}${color1}Lock-Keys:${alignr}${font Ubuntu:size=9,weight:normal} \
+${color2}${if_match "${exec xset q | grep Caps | awk '{ print $4 }'}" == "on"}${color4}${endif}Caps  ${color2}${if_match "${exec xset q | grep Num | awk '{ print $8 }'}" == "on"}${color4}${endif}Num  ${color2}${if_match "${exec xset q | grep Scroll | awk '{ print $12 }'}" == "on"}${color4}${endif}Scroll
