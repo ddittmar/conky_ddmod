@@ -141,4 +141,4 @@ ${goto 17}${color1}${font Ubuntu:size=9,weight:bold}Up: $tab${font Ubuntu:size=9
 # Zeigt den Zustand von CAPS- und NUM-Lock an:
 ${font Ubuntu:size=10,weight:bold}${color4}KEYBOARD ${hr 2}${voffset 5}
 ${offset 15}${font Ubuntu:size=9,weight:bold}${color1}Lock-Keys:${alignr}${font Ubuntu:size=9,weight:normal} \
-${color2}${if_match "${exec xset q | grep Caps | awk '{ print $4 }'}" == "on"}${color4}${endif}Caps  ${color2}${if_match "${exec xset q | grep Num | awk '{ print $8 }'}" == "on"}${color4}${endif}Num  ${color2}${if_match "${exec xset q | grep Scroll | awk '{ print $12 }'}" == "on"}${color4}${endif}Scroll
+${color2}${if_match "${exec xset q | grep Caps | awk '{ print $4 }'}" == "on"}${color5}${endif}Caps  ${color2}${if_match "${exec xset q | grep Num | awk '{ print $8 }'}" == "on"}${color5}${endif}Num  ${color2}${if_match "${exec xset q | grep Scroll | awk '{ print $12 }'}" == "on"}${color5}${endif}Scroll
