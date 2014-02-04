@@ -1,14 +1,15 @@
 #==============================================================================
-#                               conkyrc_seamod
-# Date    : 05/02/2012
-# Author  : SeaJey
+#                               conkyrc_ddmod
+# Date    : 04/02/2014
+# Author  : Dirk Dittmar
 # Version : v0.1
 # License : Distributed under the terms of GNU GPL version 2 or later
 # 
-# This version is a modification of conkyrc_lunatico wich is modification of conkyrc_orange
+# This version is a modification conkyrc_seamod wich is a modification of conkyrc_lunatico wich is modification of conkyrc_orange
 # 
 # conkyrc_orange:    http://gnome-look.org/content/show.php?content=137503&forumpage=0
 # conkyrc_lunatico:  http://gnome-look.org/content/show.php?content=142884
+# conkyrc_seamod:    http://seajey.deviantart.com/art/Conky-Seamod-v0-1-283461046
 #==============================================================================
 
 background yes
@@ -28,7 +29,7 @@ no_buffers yes
 text_buffer_size 2048
 
 gap_x 30
-gap_y 60
+gap_y 50
 minimum_size 300 900
 maximum_width 350
 own_window yes
