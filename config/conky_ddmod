@@ -1,15 +1,9 @@
 #==============================================================================
 #                               conky_ddmod
-# Date    : 04/02/2014
+#
 # Author  : Dirk Dittmar
-# Version : v0.1
 # License : Distributed under the terms of GNU GPL version 2 or later
 # 
-# This version is a modification conkyrc_seamod wich is a modification of conkyrc_lunatico wich is modification of conkyrc_orange
-# 
-# conkyrc_orange:    http://gnome-look.org/content/show.php?content=137503&forumpage=0
-# conkyrc_lunatico:  http://gnome-look.org/content/show.php?content=142884
-# conkyrc_seamod:    http://seajey.deviantart.com/art/Conky-Seamod-v0-1-283461046
 #==============================================================================
 
 background yes

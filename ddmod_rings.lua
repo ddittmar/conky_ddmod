@@ -1,16 +1,9 @@
 --==============================================================================
 --                            ddmod_rings.lua
 --
---  Date    : 04/02/2014
 --  Author  : Dirk Dittmar
---  Version : v0.1
 --  License : Distributed under the terms of GNU GPL version 2 or later
 --
---  This version is a modification of seamod_rings.lua wich is a modification of lunatico_rings.lua wich is modification of conky_orange.lua 
---
---  conky_orange.lua:    http://gnome-look.org/content/show.php?content=137503&forumpage=0
---  lunatico_rings.lua:  http://gnome-look.org/content/show.php?content=142884
---  seamod_rings.lua:    http://seajey.deviantart.com/art/Conky-Seamod-v0-1-283461046
 --==============================================================================
 
 require 'cairo'
