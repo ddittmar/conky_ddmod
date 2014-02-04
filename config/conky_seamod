@@ -84,7 +84,6 @@ ${offset 15}${font Ubuntu:size=10,weight:normal}${color1}Uptime: $tab$color2$upt
 # CPU Data
 ${goto 167}${font Ubuntu:size=10,weight:normal}${color1}Temp:${alignr}${color2}${font Ubuntu:size=10,weight:normal}${acpitemp}°C
 ${goto 167}${font Ubuntu:size=10,weight:normal}${color1}Freq:${alignr}${color2}${font Ubuntu:size=10,weight:normal}${freq}M
-${goto 167}${font Ubuntu:size=10,weight:normal}${color1}Avg:${alignr}${color2}${font Ubuntu:size=10,weight:normal}${voffset 1}${cpubar cpu0 10,90}${voffset -10}
 # Showing CPU Graph
 ${offset 121}${cpugraph 40,183 666666 666666}${voffset -25}
 ${offset 90}${font Ubuntu:size=10,weight:bold}${color5}CPU
@@ -112,10 +111,10 @@ ${offset 105}${font Ubuntu:size=10,weight:normal}${color3}${top_mem name 4}${ali
 
 # Showing disk partitions
 ${goto 167}${font Ubuntu:size=10,weight:normal}${color1}root:${alignr}${color2}${font Ubuntu:size=10,weight:normal}${fs_used /}
-${goto 167}${font Ubuntu:size=10,weight:normal}${color1}swap:${alignr}${color2}${font Ubuntu:size=10,weight:normal}${swap}${voffset 10}
+${goto 167}${font Ubuntu:size=10,weight:normal}${color1}swap:${alignr}${color2}${font Ubuntu:size=10,weight:normal}${swap}${voffset 15}
 ${offset 95}${font Ubuntu:size=10,weight:bold}${color5}DISKS
 ${offset 120}${diskiograph 33,183 666666 666666}${voffset -30}
-${voffset 20}
+${voffset 35}
 ${if_up eth0}\
 # eth0
 ${font Ubuntu:size=10,weight:bold}${color4}ETHERNET ${hr 2}${voffset 5}
