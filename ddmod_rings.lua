@@ -243,7 +243,52 @@ gauge = {
     caption_weight=1,              caption_size=12.0,
     caption_fg_colour=0xFFFFFF,    caption_fg_alpha=0.5,
 }
+} -- gauge
+
+gauge2 = {
+{
+    name='cached',                arg='',                      max_value=100,
+    x=70,                          y=300,
+    graph_radius=40,
+    graph_thickness=5,
+    graph_start_angle=180,
+    graph_unit_angle=2.7,          graph_unit_thickness=2.7,
+    graph_bg_colour=0xffffff,      graph_bg_alpha=0.1,
+    graph_fg_colour=0xFFFFFF,      graph_fg_alpha=0.3,
+    hand_fg_colour=0xEF5A29,       hand_fg_alpha=1.0,
+    txt_radius=42,
+    txt_weight=0,                  txt_size=9.0,
+    txt_fg_colour=0xEF5A29,        txt_fg_alpha=1.0,
+    graduation_radius=23,
+    graduation_thickness=0,        graduation_mark_thickness=2,
+    graduation_unit_angle=27,
+    graduation_fg_colour=0xFFFFFF, graduation_fg_alpha=0.5,
+    caption='',
+    caption_weight=1,              caption_size=10.0,
+    caption_fg_colour=0xFFFFFF,    caption_fg_alpha=0.3,
+},
+{
+    name='buffers',                arg='',                     max_value=100,
+    x=70,                          y=300,
+    graph_radius=33,
+    graph_thickness=5,
+    graph_start_angle=180,
+    graph_unit_angle=2.7,          graph_unit_thickness=2.7,
+    graph_bg_colour=0xffffff,      graph_bg_alpha=0.1,
+    graph_fg_colour=0xFFFFFF,      graph_fg_alpha=0.3,
+    hand_fg_colour=0xEF5A29,       hand_fg_alpha=1.0,
+    txt_radius=42,
+    txt_weight=0,                  txt_size=9.0,
+    txt_fg_colour=0xEF5A29,        txt_fg_alpha=1.0,
+    graduation_radius=23,
+    graduation_thickness=0,        graduation_mark_thickness=2,
+    graduation_unit_angle=27,
+    graduation_fg_colour=0xFFFFFF, graduation_fg_alpha=0.5,
+    caption='',
+    caption_weight=1,              caption_size=10.0,
+    caption_fg_colour=0xFFFFFF,    caption_fg_alpha=0.3,
 }
+} -- gauge2
 
 -------------------------------------------------------------------------------
 --                                                                 rgb_to_r_g_b
@@ -320,6 +365,41 @@ end
 
 
 -------------------------------------------------------------------------------
+--                                                              go_gauge2_rings
+-- loads data and displays gauges (to show special values)
+--
+function go_gauge2_rings(display)
+    local function get_mem_info()
+        meminfo={}
+        for Line in io.lines("/proc/meminfo") do
+            local k,v=Line:match("(.-): *(%d+)")
+            if k~=nil and v~=nil then
+                meminfo[k]=tonumber(v)
+            end
+        end
+        return meminfo
+    end
+    local meminfo = get_mem_info()
+
+    for i in pairs(gauge2) do
+        -- special handling by name
+        local data = gauge2[i]
+        local name = data['name']
+        local value = 0
+        if name == "cached" then
+            value = meminfo['Cached']
+            data['max_value'] = meminfo['MemTotal']
+            draw_gauge_ring(display, data, value)
+        end
+        if name == "buffers" then
+            value = meminfo['Buffers']
+            data['max_value'] = meminfo['MemTotal']
+            draw_gauge_ring(display, data, value)
+        end
+    end
+end
+
+-------------------------------------------------------------------------------
 --                                                               go_gauge_rings
 -- loads data and displays gauges
 --
@@ -337,6 +417,7 @@ function go_gauge_rings(display)
     end
 end
 
+
 -------------------------------------------------------------------------------
 --                                                                         MAIN
 function conky_main()
@@ -348,10 +429,19 @@ function conky_main()
     local display = cairo_create(cs)
     
     local updates = conky_parse('${updates}')
-    update_num = tonumber(updates)
+    local update_num = tonumber(updates)
     
+    -- setup a 'timer'
+    local interval = 10
+    local timer = (update_num % interval)
+
     if update_num > 5 then
-        go_gauge_rings(display)
+        go_gauge_rings(display) -- display the rings
+
+        -- display special rings
+        if timer == 0 then
+            go_gauge2_rings(display)
+        end
     end
 
     cairo_surface_destroy(cs)
