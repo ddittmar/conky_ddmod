@@ -74,10 +74,10 @@ gauge = {
 --------------------------------------------------------------------------------
 --                                                                gauge DATA (2)
 gauge2 = {
-    {
-        name='buffers',                arg='',
+    {   -- show mem plus caches 
+        name='mem_caches',             arg='',
         x=70,                          y=300,
-        graph_radius=33,               graph_thickness=5,
+        graph_radius=40,               graph_thickness=7,
     }
 } -- gauge2
 
@@ -169,7 +169,7 @@ function draw_gauge_ring(display, data, value)
     end
     cairo_show_text (display, caption)
     cairo_stroke (display)
-end
+end -- draw_gauge_ring
 
 
 -------------------------------------------------------------------------------
@@ -195,12 +195,13 @@ function go_gauge2_rings(display, refresh)
         -- special handling by name
         local data = gauge2[i]
         local name = data['name']
-        if (name == "buffers") then
-            local value = (meminfo['Buffers'] + meminfo['Cached']) * 100.0 / meminfo['MemTotal']
+        if (name == "mem_caches") then
+            local value = (meminfo['MemTotal'] - meminfo['MemFree']) * 100.0 / meminfo['MemTotal']
             draw_gauge_ring(display, data, value)
         end
     end
-end
+end -- go_gauge2_rings
+
 
 -------------------------------------------------------------------------------
 --                                                               go_gauge_rings
@@ -218,7 +219,7 @@ function go_gauge_rings(display)
     for i in pairs(gauge) do
         load_gauge_rings(display, gauge[i])
     end
-end
+end -- go_gauge_rings
 
 
 -------------------------------------------------------------------------------
