@@ -1,7 +1,7 @@
 # conky_ddmod
  
 Author: Dirk Dittmar  
-Version: v0.2  
+Version: v0.3  
 License: Distributed under the terms of GNU GPL version 2 or later  
 
 This version is a modification of Conky Seamod wich is a modification of Conky Lunatico Rings wich is modification of conky_orange
