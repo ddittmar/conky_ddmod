@@ -247,27 +247,6 @@ gauge = {
 
 gauge2 = {
 {
-    name='cached',                arg='',                      max_value=100,
-    x=70,                          y=300,
-    graph_radius=40,
-    graph_thickness=5,
-    graph_start_angle=180,
-    graph_unit_angle=2.7,          graph_unit_thickness=2.7,
-    graph_bg_colour=0xffffff,      graph_bg_alpha=0.1,
-    graph_fg_colour=0xFFFFFF,      graph_fg_alpha=0.3,
-    hand_fg_colour=0xEF5A29,       hand_fg_alpha=1.0,
-    txt_radius=42,
-    txt_weight=0,                  txt_size=9.0,
-    txt_fg_colour=0xEF5A29,        txt_fg_alpha=1.0,
-    graduation_radius=23,
-    graduation_thickness=0,        graduation_mark_thickness=2,
-    graduation_unit_angle=27,
-    graduation_fg_colour=0xFFFFFF, graduation_fg_alpha=0.5,
-    caption='',
-    caption_weight=1,              caption_size=10.0,
-    caption_fg_colour=0xFFFFFF,    caption_fg_alpha=0.3,
-},
-{
     name='buffers',                arg='',                     max_value=100,
     x=70,                          y=300,
     graph_radius=33,
@@ -368,7 +347,7 @@ end
 --                                                              go_gauge2_rings
 -- loads data and displays gauges (to show special values)
 --
-function go_gauge2_rings(display)
+function go_gauge2_rings(display, refresh)
     local function get_mem_info()
         meminfo={}
         for Line in io.lines("/proc/meminfo") do
@@ -379,21 +358,16 @@ function go_gauge2_rings(display)
         end
         return meminfo
     end
-    local meminfo = get_mem_info()
+    if (not meminfo or refresh) then
+        meminfo = get_mem_info()
+    end
 
     for i in pairs(gauge2) do
         -- special handling by name
         local data = gauge2[i]
         local name = data['name']
-        local value = 0
-        if name == "cached" then
-            value = meminfo['Cached']
-            data['max_value'] = meminfo['MemTotal']
-            draw_gauge_ring(display, data, value)
-        end
-        if name == "buffers" then
-            value = meminfo['Buffers']
-            data['max_value'] = meminfo['MemTotal']
+        if (name == "buffers") then
+            local value = (meminfo['Buffers'] + meminfo['Cached']) * 100.0 / meminfo['MemTotal']
             draw_gauge_ring(display, data, value)
         end
     end
@@ -432,15 +406,17 @@ function conky_main()
     local update_num = tonumber(updates)
     
     -- setup a 'timer'
-    local interval = 10
+    local interval = 5
     local timer = (update_num % interval)
 
     if update_num > 5 then
-        go_gauge_rings(display) -- display the rings
+        go_gauge_rings(display) -- display normal rings
 
         -- display special rings
         if timer == 0 then
-            go_gauge2_rings(display)
+            go_gauge2_rings(display, true) -- refresh the values
+        else
+            go_gauge2_rings(display) -- no refresh needed
         end
     end
 
