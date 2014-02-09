@@ -61,13 +61,13 @@ gauge = {
         name='fs_used_perc',           arg='/',
         x=70,                          y=470,
         graph_radius=54,               graph_thickness=6,
-        caption='root',                caption_size=10.0,
+        caption='Root',                caption_size=10.0,
     },
     {
         name='swapperc',               arg='',
         x=70,                          y=470,
         graph_radius=44,               graph_thickness=6,
-        caption='swap',                caption_size=10.0,
+        caption='Swap',                caption_size=10.0,
     }
 } -- gauge
 
@@ -82,9 +82,10 @@ gauge_special = {
     {
         name='mounts',                 arg='',
         x=70,                          y=470,
+        radiuses={34, 24, 14},
         graph_radius=34,               graph_thickness=6,
         caption='',                    caption_size=10.0,
-    }, 
+    },
 } -- gauge2
 
 --------------------------------------------------------------------------------
@@ -188,34 +189,34 @@ end -- string:starts_with
 
 
 -------------------------------------------------------------------------------
---                                                           string:split
--- splits the String by 'inSplitPattern' and (optional) append the results to
--- 'outResults'
+--                                                                 string:split
+-- splits the String by 'pattern' and (optional) append the results to
+--     'results'
 --
-function string:split(inSplitPattern, outResults)
-    if not outResults then
-        outResults = { }
+function string:split(pattern, results)
+    if not results then
+        results = { }
     end
     local theStart = 1
-    local theSplitStart, theSplitEnd = string.find( self, inSplitPattern, theStart )
+    local theSplitStart, theSplitEnd = string.find( self, pattern, theStart )
     while theSplitStart do
-        table.insert( outResults, string.sub( self, theStart, theSplitStart-1 ) )
+        table.insert( results, string.sub( self, theStart, theSplitStart-1 ) )
         theStart = theSplitEnd + 1
-        theSplitStart, theSplitEnd = string.find( self, inSplitPattern, theStart )
+        theSplitStart, theSplitEnd = string.find( self, pattern, theStart )
     end
-    table.insert( outResults, string.sub( self, theStart ) )
-    return outResults
+    table.insert( results, string.sub( self, theStart ) )
+    return results
 end
 
 
 -------------------------------------------------------------------------------
 --                                                            table.shallowcopy
--- does a shallow copy of orig
+-- does a shallow copy of origTable
 --
-function table.shallowcopy(orig)
+function table.shallowcopy(origTable)
     local copy = {}
-    for orig_key, orig_value in pairs(orig) do
-        copy[orig_key] = orig_value
+    for key, value in pairs(origTable) do
+        copy[key] = value
     end
     return copy
 end -- table.shallowcopy
@@ -227,9 +228,9 @@ end -- table.shallowcopy
 --
 function get_mem_info()
     local meminfo={}
-    for Line in io.lines("/proc/meminfo") do
-        local k,v = Line:match("(.-): *(%d+)")
-        if (k~=nil and v~=nil) then
+    for line in io.lines("/proc/meminfo") do
+        local k,v = line:match("(.-): *(%d+)")
+        if (k and v) then
             meminfo[k]=tonumber(v)
         end
     end
@@ -243,9 +244,9 @@ end -- get_mem_info
 --
 function get_media_mounts()
     local mounts={}
-    for Line in io.lines("/proc/mounts") do
-        local mount = Line:match(".- (.-) .*")
-        if (mount~=nil and mount:starts_with('/media')) then
+    for line in io.lines("/proc/mounts") do
+        local mount = line:match(".- (.-) .*")
+        if (mount and mount:starts_with('/media')) then
             table.insert(mounts, mount)
         end
     end
@@ -265,28 +266,30 @@ function go_special_gauge_rings(display, refresh)
         mounts = get_media_mounts() -- global var!
     end
 
-    for i in pairs(gauge_special) do
+    for _,data in ipairs(gauge_special) do
         -- special handling by name
-        local data = gauge_special[i]
         local name = data['name']
+
         -- draw mem_caches
         if (name == "mem_caches") then
             local value = (meminfo['MemTotal'] - meminfo['MemFree']) * 100.0 / meminfo['MemTotal']
             draw_gauge_ring(display, data, value)
         end
-        -- draw dynamich mounts
+
+        -- draw media mounts
         if (name == "mounts") then
-            local copy = table.shallowcopy(data)
-            for i in pairs(mounts) do
-                local mnt = mounts[i]
+            for i,mnt in ipairs(mounts) do
+                print (mnt)
                 local split = mnt:split('/')
                 local n = table.getn(split)
-                copy['caption'] = split[n]
+                data['caption'] = split[n]
+                data['graph_radius'] = data['radiuses'][i]
                 local value = tonumber(conky_parse(string.format('${fs_used_perc %s}', mnt)))
-                draw_gauge_ring(display, copy, value)
+                draw_gauge_ring(display, data, value)
             end
         end
-    end
+
+    end -- for
 
 end -- go_special_gauge_rings
 
@@ -304,8 +307,8 @@ function go_gauge_rings(display)
         draw_gauge_ring(display, data, value)
     end
     
-    for i in pairs(gauge) do
-        load_gauge_rings(display, gauge[i])
+    for _,gauge in pairs(gauge) do
+        load_gauge_rings(display, gauge)
     end
 end -- go_gauge_rings
 
