@@ -60,25 +60,31 @@ gauge = {
     {
         name='fs_used_perc',           arg='/',
         x=70,                          y=470,
-        graph_radius=54,               graph_thickness=7,
-        caption='root',
+        graph_radius=54,               graph_thickness=6,
+        caption='root',                caption_size=10.0,
     },
     {
         name='swapperc',               arg='',
         x=70,                          y=470,
-        graph_radius=42,               graph_thickness=7,
-        caption='swap',
+        graph_radius=44,               graph_thickness=6,
+        caption='swap',                caption_size=10.0,
     }
 } -- gauge
 
 --------------------------------------------------------------------------------
---                                                                gauge DATA (2)
-gauge2 = {
+--                                                          gauge DATA (special)
+gauge_special = {
     {   -- show mem plus caches 
         name='mem_caches',             arg='',
         x=70,                          y=300,
         graph_radius=40,               graph_thickness=7,
-    }
+    },
+    {
+        name='mounts',                 arg='',
+        x=70,                          y=470,
+        graph_radius=34,               graph_thickness=6,
+        caption='',                    caption_size=10.0,
+    }, 
 } -- gauge2
 
 --------------------------------------------------------------------------------
@@ -162,10 +168,10 @@ function draw_gauge_ring(display, data, value)
     cairo_select_font_face (display, "ubuntu", CAIRO_FONT_SLANT_NORMAL, caption_weight);
     cairo_set_font_size (display, caption_size)
     cairo_set_source_rgba (display, rgb_to_r_g_b(caption_fg_colour, caption_fg_alpha))
-    cairo_move_to (display, x + tox + 5, y + toy + 4)
+    cairo_move_to (display, x + tox + 5, y + toy + 3)
     -- bad hack but not enough time !
     if graph_start_angle < 105 then
-        cairo_move_to (display, x + tox - 30, y + toy + 4)
+        cairo_move_to (display, x + tox - 30, y + toy + 3)
     end
     cairo_show_text (display, caption)
     cairo_stroke (display)
@@ -173,34 +179,116 @@ end -- draw_gauge_ring
 
 
 -------------------------------------------------------------------------------
---                                                              go_gauge2_rings
+--                                                           string:starts_with
+-- checks if a string starts with another string
+--
+function string:starts_with(starts_with)
+    return self.sub(self, 1, string.len(starts_with)) == starts_with
+end -- string:starts_with
+
+
+-------------------------------------------------------------------------------
+--                                                           string:split
+-- splits the String by 'inSplitPattern' and (optional) append the results to
+-- 'outResults'
+--
+function string:split(inSplitPattern, outResults)
+    if not outResults then
+        outResults = { }
+    end
+    local theStart = 1
+    local theSplitStart, theSplitEnd = string.find( self, inSplitPattern, theStart )
+    while theSplitStart do
+        table.insert( outResults, string.sub( self, theStart, theSplitStart-1 ) )
+        theStart = theSplitEnd + 1
+        theSplitStart, theSplitEnd = string.find( self, inSplitPattern, theStart )
+    end
+    table.insert( outResults, string.sub( self, theStart ) )
+    return outResults
+end
+
+
+-------------------------------------------------------------------------------
+--                                                            table.shallowcopy
+-- does a shallow copy of orig
+--
+function table.shallowcopy(orig)
+    local copy = {}
+    for orig_key, orig_value in pairs(orig) do
+        copy[orig_key] = orig_value
+    end
+    return copy
+end -- table.shallowcopy
+
+
+-------------------------------------------------------------------------------
+--                                                                 get_mem_info
+-- loads /proc/meminfo into a table
+--
+function get_mem_info()
+    local meminfo={}
+    for Line in io.lines("/proc/meminfo") do
+        local k,v = Line:match("(.-): *(%d+)")
+        if (k~=nil and v~=nil) then
+            meminfo[k]=tonumber(v)
+        end
+    end
+    return meminfo
+end -- get_mem_info
+
+
+-------------------------------------------------------------------------------
+--                                                             get_media_mounts
+-- loads /proc/mounts startng with /media into a table
+--
+function get_media_mounts()
+    local mounts={}
+    for Line in io.lines("/proc/mounts") do
+        local mount = Line:match(".- (.-) .*")
+        if (mount~=nil and mount:starts_with('/media')) then
+            table.insert(mounts, mount)
+        end
+    end
+    return mounts
+end -- get_media_mounts
+
+
+-------------------------------------------------------------------------------
+--                                                       go_special_gauge_rings
 -- loads data and displays gauges (to show special values)
 --
-function go_gauge2_rings(display, refresh)
-    local function get_mem_info()
-        meminfo={}
-        for Line in io.lines("/proc/meminfo") do
-            local k,v = Line:match("(.-): *(%d+)")
-            if (k~=nil and v~=nil) then
-                meminfo[k]=tonumber(v)
-            end
-        end
-        return meminfo
-    end
+function go_special_gauge_rings(display, refresh) 
     if (not meminfo or refresh) then
         meminfo = get_mem_info() -- global var!
     end
+    if (not mounts or refresh) then
+        mounts = get_media_mounts() -- global var!
+    end
 
-    for i in pairs(gauge2) do
+    for i in pairs(gauge_special) do
         -- special handling by name
-        local data = gauge2[i]
+        local data = gauge_special[i]
         local name = data['name']
+        -- draw mem_caches
         if (name == "mem_caches") then
             local value = (meminfo['MemTotal'] - meminfo['MemFree']) * 100.0 / meminfo['MemTotal']
             draw_gauge_ring(display, data, value)
         end
+        -- draw dynamich mounts
+        if (name == "mounts") then
+            local copy = table.shallowcopy(data)
+            for i in pairs(mounts) do
+                local mnt = mounts[i]
+                local split = mnt:split('/')
+                local n = table.getn(split)
+                copy['caption'] = split[n]
+                local value = tonumber(conky_parse(string.format('${fs_used_perc %s}', mnt)))
+                draw_gauge_ring(display, copy, value)
+            end
+        end
     end
-end -- go_gauge2_rings
+
+end -- go_special_gauge_rings
 
 
 -------------------------------------------------------------------------------
@@ -210,7 +298,7 @@ end -- go_gauge2_rings
 function go_gauge_rings(display)
     local function load_gauge_rings(display, data)
         local str, value = '', 0
-        str = string.format('${%s %s}',data['name'], data['arg'])
+        str = string.format('${%s %s}', data['name'], data['arg'])
         str = conky_parse(str)
         value = tonumber(str)
         draw_gauge_ring(display, data, value)
@@ -236,7 +324,7 @@ function conky_main()
     local update_num = tonumber(updates)
     
     -- setup a 'timer'
-    local interval = 5
+    local interval = 2
     local timer = (update_num % interval)
 
     if update_num > 5 then
@@ -244,13 +332,13 @@ function conky_main()
 
         -- display special rings
         if timer == 0 then
-            go_gauge2_rings(display, true) -- refresh the values
+            go_special_gauge_rings(display, true) -- refresh the values
         else
-            go_gauge2_rings(display) -- no refresh needed
+            go_special_gauge_rings(display) -- no refresh needed
         end
     end
 
     cairo_surface_destroy(cs)
     cairo_destroy(display)
 
-end
+end --conky_main
