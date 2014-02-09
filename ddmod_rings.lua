@@ -279,7 +279,6 @@ function go_special_gauge_rings(display, refresh)
         -- draw media mounts
         if (name == "mounts") then
             for i,mnt in ipairs(mounts) do
-                print (mnt)
                 local split = mnt:split('/')
                 local n = table.getn(split)
                 data['caption'] = split[n]
@@ -314,7 +313,7 @@ end -- go_gauge_rings
 
 
 -------------------------------------------------------------------------------
---                                                                         MAIN
+--                                                                   conky_main
 function conky_main()
     if conky_window == nil then 
         return
