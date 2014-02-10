@@ -13,46 +13,6 @@ require 'cairo'
 --                                                                    gauge DATA
 gauge = {
     {
-        name='cpu',                    arg='cpu1',
-        x=70,                          y=130,
-        graph_radius=54,               graph_thickness=5,
-    },
-    {
-        name='cpu',                    arg='cpu2',
-        x=70,                          y=130,
-        graph_radius=48,               graph_thickness=5,
-    },
-    {
-        name='cpu',                    arg='cpu3',
-        x=70,                          y=130,
-        graph_radius=42,               graph_thickness=5,
-    },
-    {
-        name='cpu',                    arg='cpu4',
-        x=70,                          y=130,
-        graph_radius=36,               graph_thickness=5,
-    },
-    {
-        name='cpu',                    arg='cpu5',
-        x=70,                          y=130,
-        graph_radius=30,               graph_thickness=5,
-    },
-    {
-        name='cpu',                    arg='cpu6',
-        x=70,                          y=130,
-        graph_radius=24,               graph_thickness=5,
-    },
-    {
-        name='cpu',                    arg='cpu7',
-        x=70,                          y=130,
-        graph_radius=18,               graph_thickness=5,
-    },
-    {
-        name='cpu',                    arg='cpu8',
-        x=70,                          y=130,
-        graph_radius=12,               graph_thickness=5,
-    },
-    {
         name='memperc',                arg='',
         x=70,                          y=300,
         graph_radius=54,               graph_thickness=10,
@@ -88,6 +48,16 @@ gauge_special = {
         caption='',                    caption_size=10.0,
     },
 } -- gauge_special
+
+
+--------------------------------------------------------------------------------
+--                                                              gauge DATA (cpu)
+gauge_cpu = {
+    name='cpu',                    arg='',
+    x=70,                          y=130,
+    radiuses={54, 48, 42, 36, 30, 24, 18, 12},
+    graph_radius=54,               graph_thickness=5,
+}
 
 
 --------------------------------------------------------------------------------
@@ -214,6 +184,13 @@ end
 
 
 -------------------------------------------------------------------------------
+--                                                                  string:trim
+function string:trim()
+  return (self:gsub("^%s*(.-)%s*$", "%1"))
+end
+
+
+-------------------------------------------------------------------------------
 --                                                            table.shallowcopy
 -- does a shallow copy of origTable
 --
@@ -259,6 +236,29 @@ end -- get_media_mounts
 
 
 -------------------------------------------------------------------------------
+--                                                                get_cpu_infos
+-- loads /proc/cpuinfo into a table
+--
+function get_cpu_infos()
+    local cpuinfos={}
+    local cpuinfo={}
+    for line in io.lines("/proc/cpuinfo") do
+        if (string.len(line) == 0) then
+            table.insert(cpuinfos, cpuinfo)
+            cpuinfo = {}
+        else
+            local name, value = line:match("^(.-): (.-)$")
+            if (name and value) then
+                name = name:trim():gsub(" ", "_")
+                cpuinfo[name] = value
+            end
+        end
+    end
+    return cpuinfos
+end -- get_cpu_infos
+
+
+-------------------------------------------------------------------------------
 --                                                       go_special_gauge_rings
 -- loads data and displays gauges (to show special values)
 --
@@ -296,20 +296,45 @@ function go_special_gauge_rings(display, refresh)
 
 end -- go_special_gauge_rings
 
+-------------------------------------------------------------------------------
+--                                                             load_gauge_rings
+-- helper function
+--
+function load_gauge_rings(display, data)
+    local str, value = '', 0
+    str = string.format('${%s %s}', data['name'], data['arg'])
+    str = conky_parse(str)
+    value = tonumber(str)
+    print ('name = '..data['name']..'; value = '..value..'; arg = '..data['arg']..'; graph_radius = '..data['graph_radius'])
+    draw_gauge_ring(display, data, value)
+end -- load_gauge_rings
+
+-------------------------------------------------------------------------------
+--                                                           go_cpu_gauge_rings
+-- loads data and displays gauges
+--
+function go_cpu_gauge_rings(display)
+    if (not cpuinfos) then
+        cpuinfos = get_cpu_infos() -- global var!
+    end
+
+    local n = table.getn(cpuinfos)
+    local i = 1
+    while i <= n do
+        local cpu = table.shallowcopy(gauge_cpu)
+        cpu['arg'] = 'cpu'..i
+        cpu['graph_radius'] = cpu['radiuses'][i]
+        load_gauge_rings(display, cpu)
+        i = i + 1
+    end
+end -- go_cpu_gauge_rings
+
 
 -------------------------------------------------------------------------------
 --                                                               go_gauge_rings
 -- loads data and displays gauges
 --
 function go_gauge_rings(display)
-    local function load_gauge_rings(display, data)
-        local str, value = '', 0
-        str = string.format('${%s %s}', data['name'], data['arg'])
-        str = conky_parse(str)
-        value = tonumber(str)
-        draw_gauge_ring(display, data, value)
-    end
-    
     for _,gauge in pairs(gauge) do
         load_gauge_rings(display, gauge)
     end
@@ -335,6 +360,7 @@ function conky_main()
 
     if update_num > 5 then
         go_gauge_rings(display) -- display normal rings
+        go_cpu_gauge_rings() -- diplay cpu rings
 
         -- display special rings
         if timer == 0 then
