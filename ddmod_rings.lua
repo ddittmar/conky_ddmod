@@ -71,6 +71,7 @@ gauge = {
     }
 } -- gauge
 
+
 --------------------------------------------------------------------------------
 --                                                          gauge DATA (special)
 gauge_special = {
@@ -88,6 +89,7 @@ gauge_special = {
     },
 } -- gauge_special
 
+
 --------------------------------------------------------------------------------
 --                                                                  default DATA
 default = {
@@ -101,6 +103,7 @@ default = {
     caption_fg_colour=0xFFFFFF,    caption_fg_alpha=0.5,
 } -- default
 
+
 -------------------------------------------------------------------------------
 --                                                                 rgb_to_r_g_b
 -- converts color in hexa to decimal
@@ -108,6 +111,7 @@ default = {
 function rgb_to_r_g_b(colour, alpha)
     return ((colour / 0x10000) % 0x100) / 255., ((colour / 0x100) % 0x100) / 255., (colour % 0x100) / 255., alpha
 end -- rgb_to_r_g_b
+
 
 -------------------------------------------------------------------------------
 --                                                            angle_to_position
