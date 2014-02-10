@@ -86,7 +86,7 @@ gauge_special = {
         graph_radius=34,               graph_thickness=6,
         caption='',                    caption_size=10.0,
     },
-} -- gauge2
+} -- gauge_special
 
 --------------------------------------------------------------------------------
 --                                                                  default DATA
