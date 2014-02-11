@@ -296,22 +296,23 @@ function go_special_gauge_rings(display, refresh)
 
 end -- go_special_gauge_rings
 
+
 -------------------------------------------------------------------------------
 --                                                             load_gauge_rings
--- helper function
+-- helper function to load the data from conky and draw the ring 
 --
 function load_gauge_rings(display, data)
     local str, value = '', 0
     str = string.format('${%s %s}', data['name'], data['arg'])
     str = conky_parse(str)
     value = tonumber(str)
-    print ('name = '..data['name']..'; value = '..value..'; arg = '..data['arg']..'; graph_radius = '..data['graph_radius'])
     draw_gauge_ring(display, data, value)
 end -- load_gauge_rings
 
+
 -------------------------------------------------------------------------------
 --                                                           go_cpu_gauge_rings
--- loads data and displays gauges
+-- displays cpu gauges
 --
 function go_cpu_gauge_rings(display)
     if (not cpuinfos) then
@@ -319,20 +320,17 @@ function go_cpu_gauge_rings(display)
     end
 
     local n = table.getn(cpuinfos)
-    local i = 1
-    while i <= n do
-        local cpu = table.shallowcopy(gauge_cpu)
-        cpu['arg'] = 'cpu'..i
-        cpu['graph_radius'] = cpu['radiuses'][i]
-        load_gauge_rings(display, cpu)
-        i = i + 1
+    for i = 1, n do
+        gauge_cpu['arg'] = 'cpu'..i
+        gauge_cpu['graph_radius'] = gauge_cpu['radiuses'][i]
+        load_gauge_rings(display, gauge_cpu)
     end
 end -- go_cpu_gauge_rings
 
 
 -------------------------------------------------------------------------------
 --                                                               go_gauge_rings
--- loads data and displays gauges
+-- displays gauges
 --
 function go_gauge_rings(display)
     for _,gauge in pairs(gauge) do
@@ -360,7 +358,7 @@ function conky_main()
 
     if update_num > 5 then
         go_gauge_rings(display) -- display normal rings
-        go_cpu_gauge_rings() -- diplay cpu rings
+        go_cpu_gauge_rings(display) -- diplay cpu rings
 
         -- display special rings
         if timer == 0 then
