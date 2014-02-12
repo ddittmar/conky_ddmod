@@ -71,69 +71,67 @@ lua_draw_hook_post main
 ## System information using conky capabilities
 TEXT
 # Header with base system info
-${font Ubuntu:size=10,weight:bold}${color4}SYSTEM ${hr 2} foobar
-${offset 15}${font Ubuntu:size=10,weight:normal}${color1}$sysname $kernel $machine
-${offset 15}${font Ubuntu:size=10,weight:normal}${color1}$nodename
-${offset 15}${font Ubuntu:size=10,weight:normal}${color1}Uptime: $tab$color2$uptime${goto 167}${font Ubuntu:size=10,weight:normal}${color1}Load:$color2${alignr}$loadavg
+${image ./img/Home.png -p 5,5}\
+${offset 65}${font Ubuntu:size=10,weight:normal}${color1}$sysname $kernel $machine
+${offset 65}${font Ubuntu:size=10,weight:normal}${color1}$nodename
+${offset 65}${font Ubuntu:size=10,weight:normal}${color1}Uptime: $tab$color2$uptime
 
 # CPU Data
+${image ./img/Cpu.png -p 128,70}\
+${goto 167}${font Ubuntu:size=10,weight:normal}${color1}Load:$color2${alignr}$loadavg
 ${goto 167}${font Ubuntu:size=10,weight:normal}${color1}Temp:${alignr}${color2}${font Ubuntu:size=10,weight:normal}${acpitemp}°C
 ${goto 167}${font Ubuntu:size=10,weight:normal}${color1}Freq:${alignr}${color2}${font Ubuntu:size=10,weight:normal}${freq}M
 # Showing CPU Graph
-${offset 121}${cpugraph 40,183 666666 666666}${voffset -25}
-${offset 90}${font Ubuntu:size=10,weight:bold}${color5}CPU
-# Showing TOP CPU-consumers
-${offset 105}${font Ubuntu:size=10,weight:normal}${color4}${top name 1}${alignr}${top cpu 1}%
-${offset 105}${font Ubuntu:size=10,weight:normal}${color1}${top name 2}${alignr}${top cpu 2}%
-${offset 105}${font Ubuntu:size=10,weight:normal}${color2}${top name 3}${alignr}${top cpu 3}%
-${offset 105}${font Ubuntu:size=10,weight:normal}${color3}${top name 4}${alignr}${top cpu 4}%
-#${offset 105}${font Ubuntu:size=10,weight:normal}${color3}${top name 5}${alignr}${top cpu 5}%
+${offset 100}${cpugraph 40,205 666666 666666}${voffset -21}
 
+# Showing TOP CPU-consumers
+${offset 100}${font Ubuntu:size=10,weight:normal}${color4}${top name 1}${alignr}${top cpu 1}%
+${offset 100}${font Ubuntu:size=10,weight:normal}${color1}${top name 2}${alignr}${top cpu 2}%
+${offset 100}${font Ubuntu:size=10,weight:normal}${color2}${top name 3}${alignr}${top cpu 3}%
+${offset 100}${font Ubuntu:size=10,weight:normal}${color3}${top name 4}${alignr}${top cpu 4}%
 
 # Mem Data
+${image ./img/Mem.png -p 128,245}\
 ${goto 167}${font Ubuntu:size=10,weight:normal}${color1}Free:${alignr}${color2}${font Ubuntu:size=10,weight:normal}${memfree}
 ${goto 167}${font Ubuntu:size=10,weight:normal}${color1}Used:${alignr}${color2}${font Ubuntu:size=10,weight:normal}${mem}
-${voffset 10}
-# Showing Mem
-${offset 90}${font Ubuntu:size=10,weight:bold}${color5}MEM
+${voffset 20}
 # Showing TOP Mem-consumers
-${offset 105}${font Ubuntu:size=10,weight:normal}${color4}${top_mem name 1}${alignr}${top_mem mem 1}%
-${offset 105}${font Ubuntu:size=10,weight:normal}${color1}${top_mem name 2}${alignr}${top_mem mem 2}%
-${offset 105}${font Ubuntu:size=10,weight:normal}${color2}${top_mem name 3}${alignr}${top_mem mem 3}%
-${offset 105}${font Ubuntu:size=10,weight:normal}${color3}${top_mem name 4}${alignr}${top_mem mem 4}%
-#${offset 105}${font Ubuntu:size=10,weight:normal}${color3}${top_mem name 4}${alignr}${top_mem mem 5}%
-
-
+${offset 100}${font Ubuntu:size=10,weight:normal}${color4}${top_mem name 1}${alignr}${top_mem mem 1}%
+${offset 100}${font Ubuntu:size=10,weight:normal}${color1}${top_mem name 2}${alignr}${top_mem mem 2}%
+${offset 100}${font Ubuntu:size=10,weight:normal}${color2}${top_mem name 3}${alignr}${top_mem mem 3}%
+${offset 100}${font Ubuntu:size=10,weight:normal}${color3}${top_mem name 4}${alignr}${top_mem mem 4}%
+${offset 100}${font Ubuntu:size=10,weight:normal}${color3}${top_mem name 4}${alignr}${top_mem mem 5}%
+${voffset 4}
 # Showing disk partitions
+${image ./img/Hdd.png -p 128,413}\
 ${goto 167}${font Ubuntu:size=10,weight:normal}${color1}Root:${alignr}${color2}${font Ubuntu:size=10,weight:normal}${fs_used /}
-${goto 167}${font Ubuntu:size=10,weight:normal}${color1}Swap:${alignr}${color2}${font Ubuntu:size=10,weight:normal}${swap}${voffset 15}
-#${offset 95}${font Ubuntu:size=10,weight:bold}${color5}DISKS
+${goto 167}${font Ubuntu:size=10,weight:normal}${color1}Swap:${alignr}${color2}${font Ubuntu:size=10,weight:normal}${swap}${voffset 20}
 
-${offset 120}${diskiograph 33,183 666666 666666}${voffset -30}
-${voffset 35}
-${if_up eth0}\
+${offset 120}${diskiograph 40,183 666666 666666}
+${voffset 5}
+#${if_up eth0}\
 # eth0
-${font Ubuntu:size=10,weight:bold}${color4}ETHERNET ${hr 2}${voffset 5}
-${goto 17}${color1}${font Ubuntu:size=9,weight:bold}Address: $tab${font Ubuntu:size=9,weight:normal}$color2${addr eth0}
-${offset 15}${upspeedgraph eth0 30,135 666666 666666 100 -l}${offset 15}${downspeedgraph eth0 30,135 666666 666666 100 -l}
-${goto 17}${color1}${font Ubuntu:size=9,weight:bold}Up: $tab${font Ubuntu:size=9,weight:normal}$color2${upspeed eth0} / ${totalup eth0}${goto 167}${color1}${font Ubuntu:size=9,weight:bold}Down: $tab${font Ubuntu:size=9,weight:normal}$color2${downspeed eth0} / ${totaldown eth0}
+${image ./img/Lan.png -p 0,565}\
+${goto 45}${upspeedgraph eth0 30,122 666666 666666 100 -l}${goto 182}${downspeedgraph eth0 30,122 666666 666666 100 -l}${voffset -8}
+${goto 45}${color1}${font Ubuntu:size=8,weight:bold}Up: ${font Ubuntu:size=8,weight:normal}$color2${upspeed eth0} / ${totalup eth0}${goto 182}${color1}${font Ubuntu:size=8,weight:bold}Down: ${font Ubuntu:size=8,weight:normal}$color2${downspeed eth0} / ${totaldown eth0}
+${goto 45}${color1}${font Ubuntu:size=8,weight:bold}Addr: ${font Ubuntu:size=8,weight:normal}$color2${addr eth0}
 
-${endif}\
-${if_up wlan0}\
+#${endif}\
+#${if_up wlan0}\
 # wlan0
-${font Ubuntu:size=10,weight:bold}${color4}WLAN ${hr 2}${voffset 5}
-${goto 17}${color1}${font Ubuntu:size=9,weight:bold}Address: $tab${font Ubuntu:size=9,weight:normal}$color2${addr wlan0}${goto 167}${color1}${font Ubuntu:size=9,weight:bold}ESSID: $tab${font Ubuntu:size=9,weight:normal}$color2${wireless_essid wlan0}
-${goto 17}${color1}${font Ubuntu:size=9,weight:bold}Bitrate: $tab${font Ubuntu:size=9,weight:normal}$color2${wireless_bitrate wlan0}${goto 167}${color1}${font Ubuntu:size=9,weight:bold}Link: $tab$tab${font Ubuntu:size=9,weight:normal}$color2${voffset 1$}${wireless_link_bar 10,90 wlan0}
-${offset 15}${upspeedgraph wlan0 30,135 666666 666666 100 -l}${offset 15}${downspeedgraph wlan0 30,135 666666 666666 100 -l}
-${goto 17}${color1}${font Ubuntu:size=9,weight:bold}Up: $tab${font Ubuntu:size=9,weight:normal}$color2${upspeed wlan0} / ${totalup wlan0}${goto 167}${color1}${font Ubuntu:size=9,weight:bold}Down: $tab${font Ubuntu:size=9,weight:normal}$color2${downspeed wlan0} / ${totaldown wlan0}
+${image ./img/Wifi.png -p 0,642}\
+${goto 45}${upspeedgraph wlan0 30,122 666666 666666 100 -l}${goto 182}${downspeedgraph wlan0 30,122 666666 666666 100 -l}${voffset -5}
+${goto 45}${color1}${font Ubuntu:size=8,weight:bold}Up: ${font Ubuntu:size=8,weight:normal}$color2${upspeed wlan0} / ${totalup wlan0}${goto 182}${color1}${font Ubuntu:size=8,weight:bold}Down: ${font Ubuntu:size=8,weight:normal}$color2${downspeed wlan0} / ${totaldown wlan0}
+${goto 45}${color1}${font Ubuntu:size=8,weight:bold}Addr: ${font Ubuntu:size=8,weight:normal}$color2${addr wlan0}${goto 182}${color1}${font Ubuntu:size=8,weight:bold}ESSID: ${font Ubuntu:size=8,weight:normal}$color2${wireless_essid wlan0}
+${goto 45}${color1}${font Ubuntu:size=8,weight:bold}Bitrate: ${font Ubuntu:size=8,weight:normal}$color2${wireless_bitrate wlan0}${goto 182}${color1}${font Ubuntu:size=8,weight:bold}Link: ${font Ubuntu:size=8,weight:normal}$color2${voffset 1$}${wireless_link_bar 10,80 wlan0}
 
-${endif}\
+#${endif}\
 # loopback
-${font Ubuntu:size=10,weight:bold}${color4}LOOPBACK ${hr 2}${voffset 5}
-${offset 15}${upspeedgraph lo 30,135 666666 666666 100 -l}${offset 15}${downspeedgraph lo 30,135 666666 666666 100 -l}
-${goto 17}${color1}${font Ubuntu:size=9,weight:bold}Up: $tab${font Ubuntu:size=9,weight:normal}$color2${upspeed lo} / ${totalup lo}${goto 167}${color1}${font Ubuntu:size=9,weight:bold}Down: $tab${font Ubuntu:size=9,weight:normal}$color2${downspeed lo} / ${totaldown lo}
+${image ./img/Loopback.png -p 0,734}\
+${goto 45}${upspeedgraph lo 30,122 666666 666666 100 -l}${goto 182}${downspeedgraph lo 30,122 666666 666666 100 -l}${voffset -5}
+${goto 45}${color1}${font Ubuntu:size=8,weight:bold}Up: ${font Ubuntu:size=8,weight:normal}$color2${upspeed lo} / ${totalup lo}${goto 182}${color1}${font Ubuntu:size=8,weight:bold}Down: ${font Ubuntu:size=8,weight:normal}$color2${downspeed lo} / ${totaldown lo}
 
-# Zeigt den Zustand von CAPS- und NUM-Lock an:
+# keyboard lock keys:
 ${font Ubuntu:size=10,weight:bold}${color4}KEYBOARD ${hr 2}${voffset 5}
 ${offset 15}${font Ubuntu:size=9,weight:bold}${color1}Lock-Keys:${alignr}${font Ubuntu:size=9,weight:normal} \
 ${color2}${if_match "${exec xset q | grep Caps | awk '{ print $4 }'}" == "on"}${color5}${endif}Caps  ${color2}${if_match "${exec xset q | grep Num | awk '{ print $8 }'}" == "on"}${color5}${endif}Num  ${color2}${if_match "${exec xset q | grep Scroll | awk '{ print $12 }'}" == "on"}${color5}${endif}Scroll
