@@ -74,45 +74,45 @@ TEXT
 # TODO ${image ./img/background.png -p 0,0 -s 300x900}\
 # Header with base system info
 ${image ./img/Home.png -p 5,5}\
-${offset 65}${font Ubuntu:size=10:style=normal}${color1}$sysname $kernel $machine
-${offset 65}${font Ubuntu:size=10:style=normal}${color1}$nodename
-${offset 65}${font Ubuntu:size=10:style=normal}${color1}Uptime: $tab$color2$uptime
+${voffset 2}${offset 65}${font Ubuntu:size=10:style=normal}${color1}$sysname $kernel $machine
+${voffset 2}${offset 65}${font Ubuntu:size=10:style=normal}${color1}$nodename
+${voffset 2}${offset 65}${font Ubuntu:size=10:style=normal}${color1}Uptime: $tab$color2$uptime
 
 # CPU Data
 ${image ./img/Cpu.png -p 128,70}\
-${goto 167}${font Ubuntu:size=10:style=normal}${color1}Load:$color2${alignr}$loadavg
-${goto 167}${font Ubuntu:size=10:style=normal}${color1}Temp:${alignr}${color2}${font Ubuntu:size=10:style=normal}${acpitemp}°C
-${goto 167}${font Ubuntu:size=10:style=normal}${color1}Freq:${alignr}${color2}${font Ubuntu:size=10:style=normal}${freq}M
+${voffset 2}${goto 167}${font Ubuntu:size=10:style=normal}${color1}Load:$color2${alignr}$loadavg
+${voffset 2}${goto 167}${font Ubuntu:size=10:style=normal}${color1}Temp:${alignr}${color2}${font Ubuntu:size=10:style=normal}${acpitemp}°C
+${voffset 2}${goto 167}${font Ubuntu:size=10:style=normal}${color1}Freq:${alignr}${color2}${font Ubuntu:size=10:style=normal}${freq}M
 # Showing CPU Graph
-${offset 100}${cpugraph 40,205 666666 666666}${voffset -21}
+${voffset 2}${offset 100}${cpugraph 40,205 666666 666666}${voffset -21}
 
 # Showing TOP CPU-consumers
-${offset 100}${font Ubuntu:size=10:style=normal}${color4}${top name 1}${alignr}${top cpu 1}%
-${offset 100}${font Ubuntu:size=10:style=normal}${color1}${top name 2}${alignr}${top cpu 2}%
-${offset 100}${font Ubuntu:size=10:style=normal}${color2}${top name 3}${alignr}${top cpu 3}%
-${offset 100}${font Ubuntu:size=10:style=normal}${color3}${top name 4}${alignr}${top cpu 4}%
+${voffset 2}${offset 100}${font Ubuntu:size=10:style=normal}${color4}${top name 1}${alignr}${top cpu 1}%
+${voffset 2}${offset 100}${font Ubuntu:size=10:style=normal}${color1}${top name 2}${alignr}${top cpu 2}%
+${voffset 2}${offset 100}${font Ubuntu:size=10:style=normal}${color2}${top name 3}${alignr}${top cpu 3}%
+${voffset 2}${offset 100}${font Ubuntu:size=10:style=normal}${color3}${top name 4}${alignr}${top cpu 4}%
 
 # Mem Data
 ${image ./img/Mem.png -p 128,245}\
-${goto 167}${font Ubuntu:size=10:style=normal}${color1}Free:${alignr}${color2}${font Ubuntu:size=10:style=normal}${memfree}
-${goto 167}${font Ubuntu:size=10:style=normal}${color1}Used:${alignr}${color2}${font Ubuntu:size=10:style=normal}${mem}
-${voffset 20}
+${voffset 2}${goto 167}${font Ubuntu:size=10:style=normal}${color1}Free:${alignr}${color2}${font Ubuntu:size=10:style=normal}${memfree}
+${voffset 2}${goto 167}${font Ubuntu:size=10:style=normal}${color1}Used:${alignr}${color2}${font Ubuntu:size=10:style=normal}${mem}
+${voffset 22}
 # Showing TOP Mem-consumers
-${offset 100}${font Ubuntu:size=10:style=normal}${color4}${top_mem name 1}${alignr}${top_mem mem 1}%
-${offset 100}${font Ubuntu:size=10:style=normal}${color1}${top_mem name 2}${alignr}${top_mem mem 2}%
-${offset 100}${font Ubuntu:size=10:style=normal}${color2}${top_mem name 3}${alignr}${top_mem mem 3}%
-${offset 100}${font Ubuntu:size=10:style=normal}${color3}${top_mem name 4}${alignr}${top_mem mem 4}%
-${offset 100}${font Ubuntu:size=10:style=normal}${color3}${top_mem name 4}${alignr}${top_mem mem 5}%
-${voffset 4}
+${voffset 2}${offset 100}${font Ubuntu:size=10:style=normal}${color4}${top_mem name 1}${alignr}${top_mem mem 1}%
+${voffset 2}${offset 100}${font Ubuntu:size=10:style=normal}${color1}${top_mem name 2}${alignr}${top_mem mem 2}%
+${voffset 2}${offset 100}${font Ubuntu:size=10:style=normal}${color2}${top_mem name 3}${alignr}${top_mem mem 3}%
+${voffset 2}${offset 100}${font Ubuntu:size=10:style=normal}${color3}${top_mem name 4}${alignr}${top_mem mem 4}%
+${voffset 2}${offset 100}${font Ubuntu:size=10:style=normal}${color3}${top_mem name 4}${alignr}${top_mem mem 5}%
+${voffset 6}
 # Showing disk partitions
 ${image ./img/Hdd.png -p 128,413}\
-${goto 167}${font Ubuntu:size=10:style=normal}${color1}Root:${alignr}${color2}${font Ubuntu:size=10:style=normal}${fs_used /}
-${goto 167}${font Ubuntu:size=10:style=normal}${color1}Swap:${alignr}${color2}${font Ubuntu:size=10:style=normal}${swap}${voffset 20}
+${voffset 6}${goto 167}${font Ubuntu:size=10:style=normal}${color1}Root:${alignr}${color2}${font Ubuntu:size=10:style=normal}${fs_used /}
+${voffset 2}${goto 167}${font Ubuntu:size=10:style=normal}${color1}Swap:${alignr}${color2}${font Ubuntu:size=10:style=normal}${swap}${voffset 20}
 
 ${offset 120}${diskiograph 40,183 666666 666666}
-${voffset 5}
+${voffset 7}
 # eth0
-${image ./img/Lan.png -p 0,565}\
+${image ./img/Lan.png -p 0,570}\
 ${goto 45}${upspeedgraph eth0 30,122 666666 666666 100 -l}\
 ${goto 182}${downspeedgraph eth0 30,122 666666 666666 100 -l}${voffset -8}
 ${goto 45}${color1}${font Ubuntu:size=8:style=bold}Up: ${font Ubuntu:size=8:style=normal}$color2${upspeed eth0} / ${totalup eth0}\
@@ -131,7 +131,7 @@ ${goto 45}${color1}${font Ubuntu:size=8:style=bold}Bitrate: ${font Ubuntu:size=8
 ${goto 182}${color1}${font Ubuntu:size=8:style=bold}Link: ${font Ubuntu:size=8:style=normal}$color2${if_up wlan0}${wireless_link_bar 10,80 wlan0}${else}N/A${endif}
 
 # loopback
-${image ./img/Loopback.png -p 0,734}\
+${image ./img/Loopback.png -p 0,724}\
 ${goto 45}${upspeedgraph lo 30,122 666666 666666 100 -l}\
 ${goto 182}${downspeedgraph lo 30,122 666666 666666 100 -l}${voffset -5}
 ${goto 45}${color1}${font Ubuntu:size=8:style=bold}Up: ${font Ubuntu:size=8:style=normal}$color2${upspeed lo} / ${totalup lo}\
