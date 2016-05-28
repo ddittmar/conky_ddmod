@@ -6,7 +6,6 @@
 #
 #==============================================================================
 
-background yes
 update_interval 1
 update_interval_on_battery 2
 
@@ -111,24 +110,24 @@ ${voffset 2}${goto 167}${font Ubuntu:size=10:style=normal}${color1}Swap:${alignr
 
 ${offset 120}${diskiograph 40,183 666666 666666}
 ${voffset 7}
-# eth0
+# eno1
 ${image ./img/Lan.png -p 0,570}\
-${goto 45}${upspeedgraph eth0 30,122 666666 666666 100 -l}\
-${goto 182}${downspeedgraph eth0 30,122 666666 666666 100 -l}${voffset -8}
-${goto 45}${color1}${font Ubuntu:size=8:style=bold}Up: ${font Ubuntu:size=8:style=normal}$color2${upspeed eth0} / ${totalup eth0}\
-${goto 182}${color1}${font Ubuntu:size=8:style=bold}Down: ${font Ubuntu:size=8:style=normal}$color2${downspeed eth0} / ${totaldown eth0}
-${goto 45}${color1}${font Ubuntu:size=8:style=bold}Addr: ${font Ubuntu:size=8:style=normal}$color2${addr eth0}
+${goto 45}${upspeedgraph eno1 30,122 666666 666666 100 -l}\
+${goto 182}${downspeedgraph eno1 30,122 666666 666666 100 -l}${voffset -8}
+${goto 45}${color1}${font Ubuntu:size=8:style=bold}Up: ${font Ubuntu:size=8:style=normal}$color2${upspeed eno1} / ${totalup eno1}\
+${goto 182}${color1}${font Ubuntu:size=8:style=bold}Down: ${font Ubuntu:size=8:style=normal}$color2${downspeed eno1} / ${totaldown eno1}
+${goto 45}${color1}${font Ubuntu:size=8:style=bold}Addr: ${font Ubuntu:size=8:style=normal}$color2${addr eno1}
 
-# wlan0
+# wlp3s0
 ${image ./img/Wifi.png -p 0,642}\
-${goto 45}${upspeedgraph wlan0 30,122 666666 666666 100 -l}\
-${goto 182}${downspeedgraph wlan0 30,122 666666 666666 100 -l}${voffset -5}
-${goto 45}${color1}${font Ubuntu:size=8:style=bold}Up: ${font Ubuntu:size=8:style=normal}$color2${upspeed wlan0} / ${totalup wlan0}\
-${goto 182}${color1}${font Ubuntu:size=8:style=bold}Down: ${font Ubuntu:size=8:style=normal}$color2${downspeed wlan0} / ${totaldown wlan0}
-${goto 45}${color1}${font Ubuntu:size=8:style=bold}Addr: ${font Ubuntu:size=8:style=normal}$color2${addr wlan0}\
-${goto 182}${color1}${font Ubuntu:size=8:style=bold}ESSID: ${font Ubuntu:size=8:style=normal}$color2${wireless_essid wlan0}
-${goto 45}${color1}${font Ubuntu:size=8:style=bold}Bitrate: ${font Ubuntu:size=8:style=normal}$color2${if_up wlan0}${wireless_bitrate wlan0}${else}N/A${endif}\
-${goto 182}${color1}${font Ubuntu:size=8:style=bold}Link: ${font Ubuntu:size=8:style=normal}$color2${if_up wlan0}${wireless_link_bar 10,80 wlan0}${else}N/A${endif}
+${goto 45}${upspeedgraph wlp3s0 30,122 666666 666666 100 -l}\
+${goto 182}${downspeedgraph wlp3s0 30,122 666666 666666 100 -l}${voffset -5}
+${goto 45}${color1}${font Ubuntu:size=8:style=bold}Up: ${font Ubuntu:size=8:style=normal}$color2${upspeed wlp3s0} / ${totalup wlp3s0}\
+${goto 182}${color1}${font Ubuntu:size=8:style=bold}Down: ${font Ubuntu:size=8:style=normal}$color2${downspeed wlp3s0} / ${totaldown wlp3s0}
+${goto 45}${color1}${font Ubuntu:size=8:style=bold}Addr: ${font Ubuntu:size=8:style=normal}$color2${addr wlp3s0}\
+${goto 182}${color1}${font Ubuntu:size=8:style=bold}ESSID: ${font Ubuntu:size=8:style=normal}$color2${wireless_essid wlp3s0}
+${goto 45}${color1}${font Ubuntu:size=8:style=bold}Bitrate: ${font Ubuntu:size=8:style=normal}$color2${if_up wlp3s0}${wireless_bitrate wlp3s0}${else}N/A${endif}\
+${goto 182}${color1}${font Ubuntu:size=8:style=bold}Link: ${font Ubuntu:size=8:style=normal}$color2${if_up wlp3s0}${wireless_link_bar 10,80 wlp3s0}${else}N/A${endif}
 
 # loopback
 ${image ./img/Loopback.png -p 0,724}\
